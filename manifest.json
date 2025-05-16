@@ -6,15 +6,12 @@
   "permissions": ["cookies", "notifications"],
   "host_permissions": [
     "https://app.staging.getcortexapp.com/*",
+    "https://api.staging.getcortexapp.com/*",
+    "https://*.getcortexapp.com/*",
     "http://app.local.getcortexapp.com:3000/*"
   ],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Copy Cookies to Local"
-  },
-  "icons": {
-    "16": "icon16.png",
-    "48": "icon48.png",
-    "128": "icon128.png"
   }
 }

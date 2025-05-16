@@ -12,24 +12,27 @@ document.addEventListener("DOMContentLoaded", function () {
       hideStatus();
 
       // URLs for staging and local
-      const stagingUrl = "https://app.staging.getcortexapp.com";
+      const stagingApiUrl = "https://api.staging.getcortexapp.com";
       const localUrl = "http://app.local.getcortexapp.com:3000";
 
-      // Get cookies from staging
+      // Get specific cookies from staging API
       const sessionCookie = await chrome.cookies.get({
-        url: stagingUrl,
+        url: stagingApiUrl,
         name: "SESSION",
       });
 
       const xsrfCookie = await chrome.cookies.get({
-        url: stagingUrl,
+        url: stagingApiUrl,
         name: "XSRF-TOKEN",
       });
+
+      console.log("SESSION cookie value:", sessionCookie?.value);
+      console.log("XSRF-TOKEN cookie value:", xsrfCookie?.value);
 
       let copiedCount = 0;
 
       // Copy SESSION cookie to local
-      if (sessionCookie) {
+      if (sessionCookie?.value) {
         // Remove existing cookie if it exists
         await chrome.cookies.remove({
           url: localUrl,
@@ -41,16 +44,17 @@ document.addEventListener("DOMContentLoaded", function () {
           url: localUrl,
           name: "SESSION",
           value: sessionCookie.value,
-          path: sessionCookie.path || "/",
+          path: "/",
+          domain: "app.local.getcortexapp.com",
           secure: false, // Local is http
-          httpOnly: sessionCookie.httpOnly || false,
+          httpOnly: true,
           sameSite: "lax",
         });
         copiedCount++;
       }
 
       // Copy XSRF-TOKEN cookie to local
-      if (xsrfCookie) {
+      if (xsrfCookie?.value) {
         // Remove existing cookie if it exists
         await chrome.cookies.remove({
           url: localUrl,
@@ -62,9 +66,10 @@ document.addEventListener("DOMContentLoaded", function () {
           url: localUrl,
           name: "XSRF-TOKEN",
           value: xsrfCookie.value,
-          path: xsrfCookie.path || "/",
+          path: "/",
+          domain: "app.local.getcortexapp.com",
           secure: false, // Local is http
-          httpOnly: xsrfCookie.httpOnly || false,
+          httpOnly: false, // XSRF-TOKEN needs to be accessible by JavaScript
           sameSite: "lax",
         });
         copiedCount++;
@@ -77,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function () {
         // Create notification
         chrome.notifications.create({
           type: "basic",
-          iconUrl: "icon48.png",
           title: "Cookies Copied",
           message: `${copiedCount} cookie(s) copied from staging to local`,
         });
