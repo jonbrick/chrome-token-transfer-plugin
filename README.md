@@ -1,11 +1,11 @@
-# Cortex Cookie Manager
+# Cookie Manager
 
 A Chrome extension that streamlines local development workflow by automatically copying authentication cookies (SESSION and XSRF-TOKEN) from the Cortex staging API environment to the local development server.
 
 ## What it does
 
-- Copies SESSION and XSRF-TOKEN cookies from `api.staging.getcortexapp.com`
-- Creates these cookies in your local environment at `app.local.getcortexapp.com:3000`
+- Copies SESSION and XSRF-TOKEN cookies from `api.staging.getapp.com`
+- Creates these cookies in your local environment at `app.local.getapp.com:3000`
 - Maintains proper cookie settings (httpOnly, sameSite, etc.) for local development
 - Provides visual feedback with status messages and Chrome notifications
 - Handles cookie removal and replacement automatically
@@ -20,7 +20,7 @@ A Chrome extension that streamlines local development workflow by automatically 
 
 ## Usage
 
-1. Log into the staging environment at `app.staging.getcortexapp.com`
+1. Log into the staging environment at `app.staging.getapp.com`
 2. Click the extension icon in your Chrome toolbar
 3. Click "Copy Cookies to Local"
 4. The cookies will be automatically transferred to your local environment
